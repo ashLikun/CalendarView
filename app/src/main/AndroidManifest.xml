@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ashlikun.calendarview.simple">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.ashlikun.calendarview.simple.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.ashlikun.calendarview.simple.meizu.MeiZuActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.index.IndexActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.simple.SimpleActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.colorful.ColorfulActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.solay.SolarActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.single.SingleActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.progress.ProgressActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.custom.CustomActivity" />
+        <activity android:name="com.ashlikun.calendarview.simple.pager.ViewPagerActivity" />
+    </application>
+
+
+
+</manifest>
