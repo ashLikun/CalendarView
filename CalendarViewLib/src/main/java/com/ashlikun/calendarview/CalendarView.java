@@ -106,7 +106,7 @@ public class CalendarView extends FrameLayout {
         lineParams.setMargins(lineParams.leftMargin, mDelegate.getWeekBarHeight(), lineParams.rightMargin, 0);
         this.mWeekLine.setLayoutParams(lineParams);
 
-        this.mMonthPager = (MonthViewPager) findViewById(R.id.vp_month);
+        this.mMonthPager = findViewById(R.id.vp_month);
         this.mMonthPager.mWeekPager = mWeekPager;
         this.mMonthPager.mWeekBar = mWeekBar;
         LayoutParams params = (LayoutParams) this.mMonthPager.getLayoutParams();

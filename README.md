@@ -70,32 +70,32 @@ dependencies {
 
 ### 效果预览
 ### 功能性展示
-<img src="https://github.com/ashLikun/CalendarView/screenshots/main_zh_func.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/main_zh_list.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/main_zh_func.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/main_zh_list.png" height="650"/>
 ### 中国式变态需求风格
-<img src="https://github.com/ashLikun/CalendarView/screenshots/custom_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/custom_shrink.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/custom_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/custom_shrink.png" height="650"/>
 ### 收缩展开的魅族风格效果
-<img src="https://github.com/ashLikun/CalendarView/screenshots/meizu_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/meizu_shrink.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/meizu_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/meizu_shrink.png" height="650"/>
 ### 下标和多彩风格
-<img src="https://github.com/ashLikun/CalendarView/screenshots/index_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/color_expand.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/index_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/color_expand.png" height="650"/>
 ### 进度条风格
-<img src="https://github.com/ashLikun/CalendarView/screenshots/progress_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/progress_shrink.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/progress_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/progress_shrink.png" height="650"/>
 ### 星系图风格
-<img src="https://github.com/ashLikun/CalendarView/screenshots/solar_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/solar_shrink.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/solar_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/solar_shrink.png" height="650"/>
 ### 快速年份月份切换
-<img src="https://github.com/ashLikun/CalendarView/screenshots/year_view.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/screenshots/simple_expand.png" height="650"/>
+<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/year_view.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/ashLikun/CalendarView/blob/master/screenshots/simple_expand.png" height="650"/>
 
 ### 特别的，请注意不要复制这三个路径，自行替换您自己的自定义路径
 
 ```xml
-app:month_view="com.haibin.calendarviewproject.simple.SimpleCalendarCardView"
-app:week_view="com.haibin.calendarviewproject.simple.SimpleWeekView"
-app:week_bar_view="com.haibin.calendarviewproject.EnglishWeekBar"
+app:month_view="com.ashlikun.calendarviewproject.simple.SimpleCalendarCardView"
+app:week_view="com.ashlikun.calendarviewproject.simple.SimpleWeekView"
+app:week_bar_view="com.ashlikun.calendarviewproject.EnglishWeekBar"
 ```
 
 
 ### 使用方法
 ```xml
- <com.haibin.calendarview.CalendarLayout
+ <com.ashlikun.calendarview.CalendarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -103,14 +103,14 @@ app:week_bar_view="com.haibin.calendarviewproject.EnglishWeekBar"
         app:calendar_show_mode="only_week_view"
         app:calendar_content_view_id="@+id/recyclerView">
 
-        <com.haibin.calendarview.CalendarView
+        <com.ashlikun.calendarview.CalendarView
              android:id="@+id/calendarView"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:background="#fff"
-             app:month_view="com.haibin.calendarviewproject.simple.SimpleCalendarCardView"
-             app:week_view="com.haibin.calendarviewproject.simple.SimpleWeekView"
-             app:week_bar_view="com.haibin.calendarviewproject.EnglishWeekBar"
+             app:month_view="com.ashlikun.calendarviewproject.simple.SimpleCalendarCardView"
+             app:week_view="com.ashlikun.calendarviewproject.simple.SimpleWeekView"
+             app:week_bar_view="com.ashlikun.calendarviewproject.EnglishWeekBar"
              app:calendar_height="50dp"
              app:current_month_text_color="#333333"
              app:current_month_lunar_text_color="#CFCFCF"
@@ -131,7 +131,7 @@ app:week_bar_view="com.haibin.calendarviewproject.EnglishWeekBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#d4d4d4" />
-    </com.haibin.calendarview.CalendarLayout>
+    </com.ashlikun.calendarview.CalendarLayout>
 ```
 
 ### CalendarView attrs
@@ -449,24 +449,4 @@ public class SimpleWeekView extends WeekView{
     }
 }
 ```
-
-### 写在结尾：这个控件。只需要懂得一点Canvas的知识即可，如果你是新手，那么你可以通过此控件获得提升，此项目代码注释完善，结构也很简单，逻辑没那么复杂。这个项目是十分解耦合的，自定义WeekBar，MonthView、WeekView都是可以的，如果想和其它控件嵌套使用，外部父控件事件冲突可以自由通过CalendarLayout.isExpand();解决，内部基本没有事件冲突
-
-### 个人不做什么打赏，不搞QQ群，如果帮助你解决了问题，请给个star就好。
-
-## Licenses
-- Copyright (C) 2013 huanghaibin_dev <huanghaibin_dev@163.com>
-
-- Licensed under the Apache License, Version 2.0 (the "License");
-- you may not use this file except in compliance with the License.
-- You may obtain a copy of the License at
-
--         http://www.apache.org/licenses/LICENSE-2.0
-
-- Unless required by applicable law or agreed to in writing, software
-- distributed under the License is distributed on an "AS IS" BASIS,
-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-- See the License for the specific language governing permissions and
-  limitations under the License.
-
 
