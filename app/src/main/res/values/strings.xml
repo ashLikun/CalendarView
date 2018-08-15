@@ -43,4 +43,10 @@
         <item>下一页</item>
         <item>返回今天</item>
     </string-array>
+    <string-array name="func_select_dialog_items">
+        <item>默认</item>
+        <item>单选</item>
+        <item>多选</item>
+        <item>范围选择</item>
+    </string-array>
 </resources>

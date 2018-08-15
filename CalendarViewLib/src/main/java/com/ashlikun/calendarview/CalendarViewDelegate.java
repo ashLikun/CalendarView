@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +82,14 @@ final class CalendarViewDelegate {
      * 单选模式
      */
     static final int SELECT_MODE_SINGLE = 1;
-
+    /**
+     * 多选模式
+     */
+    static final int SELECT_MODE_MULTIPLE = 2;
+    /**
+     * 范围选择模式
+     */
+    static final int SELECT_MODE_RANGE = 3;
     /**
      * 选择模式
      */
@@ -236,6 +244,8 @@ final class CalendarViewDelegate {
      * 日期被选中监听
      */
     CalendarView.OnDateSelectedListener mDateSelectedListener;
+    CalendarView.OnDateRangeSelectedListener mDateRangeSelectedListener;
+    CalendarView.OnDateMultipleSelectedListener mDateMultipleSelectedListener;
 
     /**
      * 外部日期长按事件
@@ -267,13 +277,19 @@ final class CalendarViewDelegate {
      * 保存选中的日期
      */
     Calendar mSelectedCalendar;
+    List<Calendar> mSelectedCalendars;
 
     /**
      * 保存标记位置
      */
     Calendar mIndexCalendar;
+    /**
+     * 最多选择个数
+     */
+    private int mMultipleSelectMax = 5;
 
     CalendarViewDelegate(Context context, @Nullable AttributeSet attrs) {
+        mSelectedCalendars = new ArrayList<>();
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CalendarView);
 
         LunarCalendar.init(context);
@@ -302,6 +318,7 @@ final class CalendarViewDelegate {
         mMonthViewShowMode = array.getInt(R.styleable.CalendarView_month_view_show_mode, MODE_ALL_MONTH);
         mWeekStart = array.getInt(R.styleable.CalendarView_week_start_with, WEEK_START_WITH_SUN);
         mSelectMode = array.getInt(R.styleable.CalendarView_select_mode, SELECT_MODE_DEFAULT);
+        mMultipleSelectMax = array.getInt(R.styleable.CalendarView_select_multiple_max, mMultipleSelectMax);
 
         mWeekBackground = array.getColor(R.styleable.CalendarView_week_background, Color.WHITE);
         mWeekLineBackground = array.getColor(R.styleable.CalendarView_week_line_background, Color.TRANSPARENT);
@@ -646,4 +663,196 @@ final class CalendarViewDelegate {
         LunarCalendar.setupLunarCalendar(calendar);
         return calendar;
     }
+
+    /**
+     * 这个数据是否是选中的
+     *
+     * @param calendar
+     * @return
+     */
+    public boolean isSelect(Calendar calendar) {
+        switch (mSelectMode) {
+            case SELECT_MODE_DEFAULT:
+                return mSelectedCalendar.equals(calendar);
+            case SELECT_MODE_SINGLE:
+                return mSelectedCalendars.contains(calendar);
+            case SELECT_MODE_MULTIPLE:
+                return mSelectedCalendars.contains(calendar);
+            case SELECT_MODE_RANGE:
+                if (mSelectedCalendars.size() >= 2) {
+                    return mSelectedCalendars.get(0).compareTo(calendar) <= 0 && mSelectedCalendars.get(1).compareTo(calendar) >= 0;
+                } else {
+                    return mSelectedCalendars.contains(calendar);
+                }
+        }
+        return false;
+    }
+
+    /**
+     * 是否是默认选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeDefault() {
+        return mSelectMode == SELECT_MODE_DEFAULT;
+    }
+
+    /**
+     * 是否是单一选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeSingle() {
+        return mSelectMode == SELECT_MODE_SINGLE;
+    }
+
+    /**
+     * 是否是多选模式
+     *
+     * @return
+     */
+    public boolean isSelectModeMultiple() {
+        return mSelectMode == SELECT_MODE_MULTIPLE;
+    }
+
+    /**
+     * 是否是范围选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeRange() {
+        return mSelectMode == SELECT_MODE_RANGE;
+    }
+
+
+    /**
+     * 获取选中的数据，多个会选第一个
+     *
+     * @return
+     */
+    public Calendar getSelectOne() {
+        switch (mSelectMode) {
+            case SELECT_MODE_DEFAULT:
+                return mSelectedCalendar;
+            case SELECT_MODE_SINGLE:
+                return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
+            case SELECT_MODE_MULTIPLE:
+                return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
+            case SELECT_MODE_RANGE:
+                return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
+        }
+        return null;
+    }
+
+    /**
+     * 获取范围选择的开始
+     *
+     * @return
+     */
+    public Calendar getRangeSelectStart() {
+        return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
+    }
+
+    /**
+     * 获取范围选择的结束
+     *
+     * @return
+     */
+    public Calendar getRangeSelectEnd() {
+        return mSelectedCalendars.size() > 1 ? mSelectedCalendars.get(1) : null;
+    }
+
+    void cleanSelectCalendrs() {
+        mSelectedCalendars.clear();
+    }
+
+    /**
+     * 记录已经选择的日期
+     *
+     * @param selectCalendar
+     */
+    public void setSelectCalendar(Calendar selectCalendar, boolean isSelect) {
+        if (mSelectMode == CalendarViewDelegate.SELECT_MODE_SINGLE) {
+            //单选
+            if (isSelect) {
+                mSelectedCalendars.clear();
+                mSelectedCalendars.add(selectCalendar);
+            } else {
+                if (mSelectedCalendars.contains(selectCalendar)) {
+                    mSelectedCalendars.remove(selectCalendar);
+                }
+            }
+        } else if (mSelectMode == CalendarViewDelegate.SELECT_MODE_MULTIPLE) {
+            //多选
+            if (isSelect) {
+                if (mSelectedCalendars.size() >= mMultipleSelectMax) {
+                    //选择到上限,移动数据
+                    for (int i = 0; i < mSelectedCalendars.size() - 1; i++) {
+                        mSelectedCalendars.set(i, mSelectedCalendars.get(i + 1));
+                    }
+                    mSelectedCalendars.set(mSelectedCalendars.size() - 1, selectCalendar);
+                } else {
+                    mSelectedCalendars.add(selectCalendar);
+                }
+            } else {
+                //反选
+                if (mSelectedCalendars.contains(selectCalendar)) {
+                    mSelectedCalendars.remove(selectCalendar);
+                }
+            }
+        } else if (mSelectMode == CalendarViewDelegate.SELECT_MODE_RANGE) {
+            //范围选择
+            if (isSelect) {
+                mSelectedCalendars.add(selectCalendar);
+                if (mSelectedCalendars.size() > 2) {
+                    //大于2个，就从新选择
+                    mSelectedCalendars.clear();
+                    mSelectedCalendars.add(selectCalendar);
+                } else if (mSelectedCalendars.size() == 2) {
+                    //1>2，交换数据
+                    if (mSelectedCalendars.get(0).compareTo(mSelectedCalendars.get(1)) >= 1) {
+                        Calendar temp = mSelectedCalendars.get(0);
+                        mSelectedCalendars.set(0, mSelectedCalendars.get(1));
+                        mSelectedCalendars.set(1, temp);
+                    }
+                }
+            } else {
+                if (mSelectedCalendars.contains(selectCalendar)) {
+                    mSelectedCalendars.remove(selectCalendar);
+                }
+            }
+        }
+    }
+
+    /**
+     * 分发选择事件
+     *
+     * @param isClick 是否是点击
+     */
+    public void dispatchSelectListener(boolean isClick) {
+        switch (mSelectMode) {
+            case SELECT_MODE_DEFAULT:
+                if (mDateSelectedListener != null) {
+                    mDateSelectedListener.onDateSelected(mSelectedCalendar, isClick);
+                }
+                break;
+            case SELECT_MODE_SINGLE:
+                if (mDateSelectedListener != null) {
+                    mDateSelectedListener.onDateSelected(mSelectedCalendar, isClick);
+                }
+                break;
+            case SELECT_MODE_MULTIPLE:
+                if (mDateMultipleSelectedListener != null) {
+                    mDateMultipleSelectedListener.onDateMultipleSelected(mSelectedCalendars, isClick);
+                }
+                break;
+            case SELECT_MODE_RANGE:
+                if (mDateRangeSelectedListener != null) {
+                    mDateRangeSelectedListener.onDateRangeSelected(getRangeSelectStart(), getRangeSelectEnd(), isClick);
+                }
+                break;
+        }
+    }
+
+
 }

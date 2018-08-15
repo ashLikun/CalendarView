@@ -58,6 +58,18 @@
                 tools:ignore="SmallSp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/iv_func"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_toLeftOf="@+id/fl_current"
+            android:background="@drawable/bg_ripple"
+            android:padding="4dp"
+            android:src="@mipmap/ic_func"
+            android:tint="#333333" />
+
         <FrameLayout
             android:id="@+id/fl_current"
             android:layout_width="32dp"
@@ -113,12 +125,12 @@
             app:scheme_text="假"
             app:scheme_text_color="#128c4b"
             app:scheme_theme_color="#128c4b"
+            app:select_mode="default_mode"
             app:selected_lunar_text_color="#fff"
             app:selected_text_color="#fff"
             app:selected_theme_color="#108cd4"
             app:week_background="#fff"
             app:week_text_color="#111"
-            app:select_mode="single_mode"
             app:week_view="com.ashlikun.calendarview.simple.single.SingleWeekView"
             app:year_view_day_text_color="#333333"
             app:year_view_day_text_size="9sp"

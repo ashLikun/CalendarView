@@ -9,6 +9,8 @@ import android.view.View;
 import com.ashlikun.calendarview.Calendar;
 import com.ashlikun.calendarview.MonthView;
 
+import java.util.List;
+
 /**
  * 高仿魅族日历布局
  */
@@ -18,6 +20,7 @@ public class SingleMonthView extends MonthView {
     private int mRadius;
     private Paint mRingPaint = new Paint();
     private int mRingRadius;
+    Paint ranglePaint;
 
     public SingleMonthView(Context context) {
         super(context);
@@ -36,14 +39,18 @@ public class SingleMonthView extends MonthView {
         mRingPaint.setStrokeWidth(dipToPx(context, 1));
         setLayerType(View.LAYER_TYPE_SOFTWARE, mRingPaint);
         mRingPaint.setMaskFilter(new BlurMaskFilter(30, BlurMaskFilter.Blur.SOLID));
-
+        ranglePaint = new Paint();
+        ranglePaint.setStyle(Paint.Style.FILL);
+        ranglePaint.setAntiAlias(true);
+        ranglePaint.setColor(0xffff0000);
+        ranglePaint.setTextSize(dipToPx(getContext(), 11));
     }
 
     @Override
     protected void onPreviewHook() {
         mRadius = Math.min(mItemWidth, mItemHeight) / 6 * 2;
         mRingRadius = Math.min(mItemWidth, mItemHeight) / 5 * 2;
-        mSelectTextPaint.setTextSize(dipToPx(getContext(),17));
+        mSelectTextPaint.setTextSize(dipToPx(getContext(), 17));
     }
 
     /**
@@ -61,10 +68,19 @@ public class SingleMonthView extends MonthView {
 
         int cx = x + mItemWidth / 2;
         int cy = y + mItemHeight / 2;
-
-        canvas.drawCircle(cx, cy, mRadius, mSelectedPaint);
-        canvas.drawCircle(cx, cy, mRingRadius, mRingPaint);
-
+        canvas.drawCircle(cx, cy, mRingRadius, mSelectedPaint);
+        if (isSelectModeRange()) {
+            List<Calendar> calendars = getSelectedCalendars();
+            int index = calendars.indexOf(calendar);
+            if (index == 0) {
+                float textWidth = ranglePaint.measureText("开始", 0, 2);
+                canvas.drawText("开始", x + mItemWidth - textWidth, getBaselineY(y), ranglePaint);
+            } else if (index == 1) {
+                float textWidth = ranglePaint.measureText("结束", 0, 2);
+                canvas.drawText("结束", x + mItemWidth - textWidth, getBaselineY(y), ranglePaint);
+            }
+            return false;
+        }
         return true;
     }
 
@@ -72,27 +88,28 @@ public class SingleMonthView extends MonthView {
     protected void onDrawScheme(Canvas canvas, Calendar calendar, int x, int y) {
         int cx = x + mItemWidth / 2;
         int cy = y + mItemHeight / 2;
-        //canvas.drawCircle(cx, cy, mRadius, mSchemePaint);
+        canvas.drawCircle(cx, cy, mRadius, mSchemePaint);
     }
 
     @Override
     protected void onDrawText(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme, boolean isSelected) {
-        float baselineY = mTextBaseLine + y - dipToPx(getContext(),1);
+        float baselineY = getBaselineY(y);
         int cx = x + mItemWidth / 2;
+        String text = getDrawText(calendar, hasScheme, isSelected);
         if (isSelected) {
-            canvas.drawText(calendar.isCurrentDay() ? "今" : "选",
+            canvas.drawText(text,
                     cx,
                     baselineY,
                     mSelectTextPaint);
         } else if (hasScheme) {
-            canvas.drawText(calendar.isCurrentDay() ? "今" : String.valueOf(calendar.getDay()),
+            canvas.drawText(text,
                     cx,
                     baselineY,
                     calendar.isCurrentDay() ? mCurDayTextPaint :
                             calendar.isCurrentMonth() ? mSchemeTextPaint : mOtherMonthTextPaint);
 
         } else {
-            canvas.drawText(calendar.isCurrentDay() ? "今" : String.valueOf(calendar.getDay()),
+            canvas.drawText(text,
                     cx,
                     baselineY,
                     calendar.isCurrentDay() ? mCurDayTextPaint :
@@ -100,6 +117,14 @@ public class SingleMonthView extends MonthView {
         }
     }
 
+    @Override
+    protected String getDrawText(Calendar calendar, boolean hasScheme, boolean isSelected) {
+        if (isSelected) {
+            if (isSelectModeRange()) {
+            }
+        }
+        return calendar.isCurrentDay() ? "今" : String.valueOf(calendar.getDay());
+    }
 
     /**
      * dp转px

@@ -34,7 +34,7 @@ public abstract class WeekView extends BaseView {
             int x = i * mItemWidth + mDelegate.getCalendarPadding();
             onLoopStart(x);
             Calendar calendar = mItems.get(i);
-            boolean isSelected = i == mCurrentItem;
+            boolean isSelected = mDelegate.isSelect(calendar);
             boolean hasScheme = calendar.hasScheme();
             if (hasScheme) {
                 boolean isDrawSelected = false;//是否继续绘制选中的onDrawScheme
@@ -74,10 +74,7 @@ public abstract class WeekView extends BaseView {
                     mParentLayout.updateSelectWeek(i);
                 }
 
-                if (mDelegate.mDateSelectedListener != null) {
-                    mDelegate.mDateSelectedListener.onDateSelected(calendar, true);
-                }
-
+                mDelegate.dispatchSelectListener(true);
                 invalidate();
             }
         }
@@ -116,9 +113,7 @@ public abstract class WeekView extends BaseView {
                     mParentLayout.updateSelectWeek(i);
                 }
 
-                if (mDelegate.mDateSelectedListener != null) {
-                    mDelegate.mDateSelectedListener.onDateSelected(calendar, true);
-                }
+                mDelegate.dispatchSelectListener(true);
 
                 mDelegate.mDateLongClickListener.onDateLongClick(calendar);
 
@@ -168,12 +163,12 @@ public abstract class WeekView extends BaseView {
 
         if (mDelegate.mDateSelectedListener != null
                 && isNotice
-                && mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_DEFAULT) {
-            mDelegate.mDateSelectedListener.onDateSelected(currentCalendar, false);
+                && mDelegate.isSelectModeDefault()) {
+            mDelegate.dispatchSelectListener(false);
         }
 
         mParentLayout.updateContentViewTranslateY();
-        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_DEFAULT) {
+        if (mDelegate.isSelectModeDefault()) {
             mCurrentItem = curIndex;
         }
         invalidate();

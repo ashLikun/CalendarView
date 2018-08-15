@@ -71,8 +71,9 @@ public final class WeekViewPager extends ViewPager {
                 }
                 WeekView view = (WeekView) findViewWithTag(position);
                 if (view != null) {
-                    view.performClickCalendar(mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_SINGLE ?
-                            mDelegate.mIndexCalendar : mDelegate.mSelectedCalendar, !isUsingScrollToCalendar);
+                    if (mDelegate.getSelectOne() != null) {
+                        view.performClickCalendar(mDelegate.getSelectOne(), !isUsingScrollToCalendar);
+                    }
                 }
                 isUsingScrollToCalendar = false;
             }
@@ -117,8 +118,8 @@ public final class WeekViewPager extends ViewPager {
         if (mDelegate.mInnerListener != null) {
             mDelegate.mInnerListener.onWeekDateSelected(calendar, false);
         }
-        if (mDelegate.mDateSelectedListener != null) {
-            mDelegate.mDateSelectedListener.onDateSelected(calendar, false);
+        if (mDelegate.isSelectModeDefault()) {
+            mDelegate.dispatchSelectListener(false);
         }
         int i = CalendarUtil.getWeekFromDayInMonth(calendar, mDelegate.getWeekStart());
         mParentLayout.updateSelectWeek(i);
@@ -144,8 +145,8 @@ public final class WeekViewPager extends ViewPager {
             view.setSelectedCalendar(mDelegate.getCurrentDay());
             view.invalidate();
         }
-        if (mDelegate.mDateSelectedListener != null && getVisibility() == VISIBLE) {
-            mDelegate.mDateSelectedListener.onDateSelected(mDelegate.createCurrentDate(), false);
+        if (mDelegate.isSelectModeDefault() && getVisibility() == VISIBLE) {
+            mDelegate.dispatchSelectListener(false);
         }
         if (getVisibility() == VISIBLE) {
             mDelegate.mInnerListener.onWeekDateSelected(mDelegate.getCurrentDay(), false);
@@ -179,7 +180,7 @@ public final class WeekViewPager extends ViewPager {
      * 更新单选模式
      */
     void updateSingleSelect() {
-        if (mDelegate.getSelectMode() == CalendarViewDelegate.SELECT_MODE_DEFAULT) {
+        if (mDelegate.isSelectModeDefault()) {
             return;
         }
         for (int i = 0; i < getChildCount(); i++) {
@@ -200,16 +201,15 @@ public final class WeekViewPager extends ViewPager {
     }
 
     /**
-     * 更新选择效果
+     * 更新单选
      */
     void updateSelected() {
         for (int i = 0; i < getChildCount(); i++) {
             WeekView view = (WeekView) getChildAt(i);
-            view.setSelectedCalendar(mDelegate.mSelectedCalendar);
+            view.setSelectedCalendar(mDelegate.getSelectOne());
             view.invalidate();
         }
     }
-
 
     /**
      * 更新标记日期

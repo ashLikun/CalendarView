@@ -596,7 +596,7 @@ final class CalendarUtil {
     }
 
     /**
-     * 从月视图切换获得第一天的日期
+     * 从月视图切换获得之前的时间，如果之前的时间在当月没有，就选择第一天
      *
      * @param position position
      * @param delegate position
@@ -606,7 +606,16 @@ final class CalendarUtil {
         Calendar calendar = new Calendar();
         calendar.setYear((position + delegate.getMinYearMonth() - 1) / 12 + delegate.getMinYear());
         calendar.setMonth((position + delegate.getMinYearMonth() - 1) % 12 + 1);
-        calendar.setDay(1);
+        if (delegate.mSelectedCalendar != null) {
+            int max = getMonthDaysCount(calendar.getYear(), calendar.getMonth());
+            if (max >= delegate.mSelectedCalendar.getDay()) {
+                calendar.setDay(delegate.mSelectedCalendar.getDay());
+            } else {
+                calendar.setDay(1);
+            }
+        } else {
+            calendar.setDay(1);
+        }
         calendar.setCurrentMonth(calendar.getYear() == delegate.getCurrentDay().getYear() &&
                 calendar.getMonth() == delegate.getCurrentDay().getMonth());
         calendar.setCurrentDay(calendar.equals(delegate.getCurrentDay()));

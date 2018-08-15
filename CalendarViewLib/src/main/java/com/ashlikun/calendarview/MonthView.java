@@ -97,7 +97,7 @@ public abstract class MonthView extends BaseView {
         int x = j * mItemWidth + mDelegate.getCalendarPadding();
         int y = i * mItemHeight;
         onLoopStart(x, y);
-        boolean isSelected = d == mCurrentItem;
+        boolean isSelected = mDelegate.isSelect(calendar);
         boolean hasScheme = calendar.hasScheme();
 
         if (hasScheme) {
@@ -144,11 +144,11 @@ public abstract class MonthView extends BaseView {
                     int position = mCurrentItem < 7 ? cur - 1 : cur + 1;
                     mMonthViewPager.setCurrentItem(position);
                 }
-
+                //内部自己处理逻辑
                 if (mDelegate.mInnerListener != null) {
                     mDelegate.mInnerListener.onMonthDateSelected(calendar, true);
                 }
-
+                //父控件Layout处理
                 if (mParentLayout != null) {
                     if (calendar.isCurrentMonth()) {
                         mParentLayout.updateSelectPosition(mItems.indexOf(calendar));
@@ -157,11 +157,8 @@ public abstract class MonthView extends BaseView {
                     }
 
                 }
-
-                if (mDelegate.mDateSelectedListener != null) {
-                    mDelegate.mDateSelectedListener.onDateSelected(calendar, true);
-                }
-                //invalidate();
+                //外部处理
+                mDelegate.dispatchSelectListener(true);
             }
         }
     }
@@ -214,9 +211,7 @@ public abstract class MonthView extends BaseView {
 
                 }
 
-                if (mDelegate.mDateSelectedListener != null) {
-                    mDelegate.mDateSelectedListener.onDateSelected(calendar, true);
-                }
+                mDelegate.dispatchSelectListener(true);
 
                 mDelegate.mDateLongClickListener.onDateLongClick(calendar);
                 invalidate();
@@ -231,7 +226,8 @@ public abstract class MonthView extends BaseView {
             indexX = 6;
         }
         int indexY = (int) mY / mItemHeight;
-        mCurrentItem = indexY * 7 + indexX;// 选择项
+        // 选择项
+        mCurrentItem = indexY * 7 + indexX;
         if (mCurrentItem >= 0 && mCurrentItem < mItems.size()) {
             return mItems.get(mCurrentItem);
         }

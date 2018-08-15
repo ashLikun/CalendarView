@@ -67,8 +67,8 @@
             android:layout_toLeftOf="@+id/iv_more"
             android:background="@drawable/bg_ripple"
             android:padding="4dp"
-            android:tint="#333333"
-            android:src="@mipmap/ic_func" />
+            android:src="@mipmap/ic_func"
+            android:tint="#333333" />
 
 
         <FrameLayout
@@ -378,7 +378,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="单选风格"
+                            android:text="单选/多选/范围选风格"
                             android:textColor="#333333"
                             android:textSize="18sp"
                             android:textStyle="bold" />

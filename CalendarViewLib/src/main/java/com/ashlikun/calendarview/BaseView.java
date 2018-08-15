@@ -361,7 +361,28 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
      * @return true or false
      */
     protected boolean isSelected(Calendar calendar) {
-        return mItems != null && mItems.indexOf(calendar) == mCurrentItem;
+        return mDelegate.isSelect(calendar);
+    }
+
+    /**
+     * 获取文本的基线
+     * MonthView用的，因为多行
+     *
+     * @param y y的坐标
+     * @return
+     */
+    protected float getBaselineY(int y) {
+        return mTextBaseLine + y - CalendarUtil.dipToPx(getContext(), 1);
+    }
+
+    /**
+     * 获取文本的基线
+     * 给WeekView用的，因为就是一行
+     *
+     * @return
+     */
+    protected float getBaselineY() {
+        return mTextBaseLine - CalendarUtil.dipToPx(getContext(), 1);
     }
 
     /**
@@ -383,11 +404,85 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
             }
             addSchemesFromMap();
         }
-
         invalidate();
+    }
+
+    /**
+     * 是否是默认选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeDefault() {
+        return mDelegate.isSelectModeDefault();
+    }
+
+    /**
+     * 是否是单一选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeSingle() {
+        return mDelegate.isSelectModeSingle();
+    }
+
+    /**
+     * 是否是多选模式
+     *
+     * @return
+     */
+    public boolean isSelectModeMultiple() {
+        return mDelegate.isSelectModeMultiple();
+    }
+
+    /**
+     * 是否是范围选择模式
+     *
+     * @return
+     */
+    public boolean isSelectModeRange() {
+        return mDelegate.isSelectModeRange();
+    }
+
+    /**
+     * 获取单选或者默认模式的,选中数据
+     *
+     * @return
+     */
+    public Calendar getSelectedCalendar() {
+        return mDelegate.mSelectedCalendar;
+    }
+
+    /**
+     * 获取多选的数据
+     *
+     * @return
+     */
+    public List<Calendar> getSelectedCalendars() {
+        return mDelegate.mSelectedCalendars;
+    }
+
+    /**
+     * 获取选中的数据，多个会选第一个
+     *
+     * @return
+     */
+    public Calendar getSelectOne() {
+        return mDelegate.getSelectOne();
+    }
+
+    /**
+     * 获取默认的绘制文本，可以重写，按照自定的
+     *
+     * @param calendar
+     * @param hasScheme
+     * @param isSelected
+     */
+    protected String getDrawText(Calendar calendar, boolean hasScheme, boolean isSelected) {
+        return String.valueOf(calendar.getDay());
     }
 
     abstract void updateCurrentDate();
 
     protected abstract void onDestroy();
+
 }

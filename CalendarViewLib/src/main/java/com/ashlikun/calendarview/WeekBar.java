@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * 作者　　: 李坤
  * 创建时间: 2018/8/12 0012 13:11
@@ -70,6 +72,29 @@ public class WeekBar extends LinearLayout {
      * @param isClick   isClick 点击
      */
     protected void onDateSelected(Calendar calendar, int weekStart, boolean isClick) {
+
+    }
+
+    /**
+     * 日期选择事件，这里提供这个回调，可以方便定制WeekBar需要
+     *
+     * @param calendarStart calendar 选择的日期
+     * @param calendarEnd   calendar 选择的日期
+     * @param weekStart     周起始
+     * @param isClick       isClick 点击
+     */
+    protected void onDateRangeSelected(Calendar calendarStart, Calendar calendarEnd, int weekStart, boolean isClick) {
+
+    }
+
+    /**
+     * 日期选择事件，这里提供这个回调，可以方便定制WeekBar需要
+     *
+     * @param calendars calendar 选择的日期
+     * @param weekStart 周起始
+     * @param isClick   isClick 点击
+     */
+    protected void onDateMultipleSelected(List<Calendar> calendars, int weekStart, boolean isClick) {
 
     }
 

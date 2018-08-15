@@ -2,7 +2,9 @@ package com.ashlikun.calendarview.simple.single;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,8 @@ import java.util.Map;
 
 public class SingleActivity extends BaseActivity implements
         CalendarView.OnDateSelectedListener,
+        CalendarView.OnDateRangeSelectedListener,
+        CalendarView.OnDateMultipleSelectedListener,
         CalendarView.OnYearChangeListener,
         CalendarView.OnMonthChangeListener,
         View.OnClickListener {
@@ -47,6 +51,7 @@ public class SingleActivity extends BaseActivity implements
     private int mYear;
     CalendarLayout mCalendarLayout;
     GroupRecyclerView mRecyclerView;
+    private AlertDialog mFuncDialog;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, SingleActivity.class));
@@ -87,8 +92,20 @@ public class SingleActivity extends BaseActivity implements
                 mCalendarView.scrollToCurrent();
             }
         });
+        findViewById(R.id.iv_func).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFuncDialog = new AlertDialog.Builder(SingleActivity.this)
+                        .setTitle(R.string.func_dialog_title)
+                        .setItems(R.array.func_select_dialog_items, listener)
+                        .create();
+                mFuncDialog.show();
+            }
+        });
         mCalendarLayout = (CalendarLayout) findViewById(R.id.calendarLayout);
         mCalendarView.setOnDateSelectedListener(this);
+        mCalendarView.setOnDateMultipleSelectedListener(this);
+        mCalendarView.setOnDateRangeSelectedListener(this);
         mCalendarView.setOnYearChangeListener(this);
         mCalendarView.setOnMonthChangeListener(this);
         mTextYear.setText(String.valueOf(mCalendarView.getCurYear()));
@@ -113,7 +130,7 @@ public class SingleActivity extends BaseActivity implements
         schemes.add(getSchemeCalendar(year, month, 18, 0xFFbc13f0, "记"));
         schemes.add(getSchemeCalendar(year, month, 25, 0xFF13acf0, "假"));
 
-         /*
+        /**
          * 此方法现在弃用，但不影响原来的效果，原因：数据量大时 size()>10000 ，遍历性能太差，超过Android限制的16ms响应，造成卡顿
          * 现在推荐使用 setSchemeDate(Map<String, Calendar> mSchemeDates)，Map查找性能非常好，经测试，50000以上数据，1ms解决
          */
@@ -174,7 +191,8 @@ public class SingleActivity extends BaseActivity implements
         calendar.setYear(year);
         calendar.setMonth(month);
         calendar.setDay(day);
-        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
+        //如果单独标记颜色、则会使用这个颜色
+        calendar.setSchemeColor(color);
         calendar.setScheme(text);
         return calendar;
     }
@@ -189,10 +207,7 @@ public class SingleActivity extends BaseActivity implements
         mTextYear.setText(String.valueOf(calendar.getYear()));
         mTextLunar.setText(calendar.getLunar());
         mYear = calendar.getYear();
-        Log.e("onDateSelected", "  -- " + calendar.getYear() +
-                "  --  " + calendar.getMonth() +
-                "  -- " + calendar.getDay() +
-                "  --  " + isClick);
+        Log.e("onDateSelected", "calendar = " + calendar.toString() + "    isClick = " + isClick);
     }
 
     @SuppressLint("SetTextI18n")
@@ -212,5 +227,42 @@ public class SingleActivity extends BaseActivity implements
         mTextMonthDay.setText(String.valueOf(year));
     }
 
+    final DialogInterface.OnClickListener listener =
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+                            mCalendarView.setSelectDefaultMode();
+                            break;
+                        case 1:
+                            mCalendarView.setSelectSingleMode();
+                            break;
+                        case 2:
+                            mCalendarView.setSelectMultipleMode();
+                            break;
+                        case 3:
+                            mCalendarView.setSelectRangeMode();
+                            break;
 
+
+                    }
+                }
+            };
+
+    @Override
+    public void onDateRangeSelected(Calendar calendarStart, Calendar calendarEnd, boolean isClick) {
+        Log.e("onDateRangeSelected", "calendarStart = " + (calendarStart == null ? "null" : calendarStart.toString())
+                + "   calendarEnd = " + (calendarEnd == null ? "null" : calendarEnd.toString()) + "    isClick = " + isClick);
+    }
+
+    @Override
+    public void onDateMultipleSelected(List<Calendar> calendars, boolean isClick) {
+        StringBuilder sb = new StringBuilder();
+        for (Calendar c : calendars) {
+            sb.append("  ,  ");
+            sb.append(c);
+        }
+        Log.e("onDateMultipleSelected", sb + " isClick = " + isClick);
+    }
 }

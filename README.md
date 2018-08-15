@@ -206,7 +206,8 @@ app:week_bar_view="com.ashlikun.calendarviewproject.EnglishWeekBar"
              <enum name="mon" value="2" />
              <enum name="sat" value="7" />
         </attr>
-
+        <!--当选择模式是多个时候，就会使用这个属性，标记最大选中个数-->
+        <attr name="select_multiple_max" format="integer" />
         <!-- 自定义选择模式 -->
         <attr name="select_mode">
               <enum name="default_mode" value="0" />
