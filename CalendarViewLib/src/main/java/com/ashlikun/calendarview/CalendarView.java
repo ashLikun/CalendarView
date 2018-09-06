@@ -152,12 +152,7 @@ public class CalendarView extends FrameLayout {
                     return;
                 }
                 mDelegate.mIndexCalendar = calendar;
-                if (mDelegate.isSelectModeDefault()) {
-                    mDelegate.mSelectedCalendar = calendar;
-                } else if (isClick) {
-                    //不是默认模式
-                    mDelegate.setSelectCalendar(calendar, !mDelegate.isSelect(calendar));
-                }
+                mDelegate.setSelectCalendar(calendar, !mDelegate.isSelect(calendar));
                 mWeekPager.updateSelected(mDelegate.mIndexCalendar, false);
                 mMonthPager.updateSelected();
                 //回调顶部的星期栏
@@ -183,12 +178,7 @@ public class CalendarView extends FrameLayout {
             @Override
             public void onWeekDateSelected(Calendar calendar, boolean isClick) {
                 mDelegate.mIndexCalendar = calendar;
-                if (mDelegate.isSelectModeDefault()) {
-                    mDelegate.mSelectedCalendar = calendar;
-                } else if (isClick) {
-                    //不是默认模式
-                    mDelegate.setSelectCalendar(calendar, !mDelegate.isSelect(calendar));
-                }
+                mDelegate.setSelectCalendar(calendar, !mDelegate.isSelect(calendar));
                 int y = calendar.getYear() - mDelegate.getMinYear();
                 int position = 12 * y + mDelegate.mIndexCalendar.getMonth() - mDelegate.getMinYearMonth();
                 mWeekPager.updateSingleSelect();
@@ -922,7 +912,6 @@ public class CalendarView extends FrameLayout {
             return;
         }
         mDelegate.setSelectMode(CalendarViewDelegate.SELECT_MODE_SINGLE);
-        mDelegate.setSelectCalendar(mDelegate.mSelectedCalendar, true);
         mWeekPager.updateSelected();
         mMonthPager.updateSelected();
     }

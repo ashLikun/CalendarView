@@ -675,7 +675,7 @@ final class CalendarViewDelegate {
             case SELECT_MODE_DEFAULT:
                 return mSelectedCalendar.equals(calendar);
             case SELECT_MODE_SINGLE:
-                return mSelectedCalendars.contains(calendar);
+                return mSelectedCalendar.equals(calendar);
             case SELECT_MODE_MULTIPLE:
                 return mSelectedCalendars.contains(calendar);
             case SELECT_MODE_RANGE:
@@ -735,7 +735,7 @@ final class CalendarViewDelegate {
             case SELECT_MODE_DEFAULT:
                 return mSelectedCalendar;
             case SELECT_MODE_SINGLE:
-                return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
+                return mSelectedCalendar;
             case SELECT_MODE_MULTIPLE:
                 return mSelectedCalendars.size() > 0 ? mSelectedCalendars.get(0) : null;
             case SELECT_MODE_RANGE:
@@ -772,17 +772,10 @@ final class CalendarViewDelegate {
      * @param selectCalendar
      */
     public void setSelectCalendar(Calendar selectCalendar, boolean isSelect) {
-        if (mSelectMode == CalendarViewDelegate.SELECT_MODE_SINGLE) {
-            //单选
-            if (isSelect) {
-                mSelectedCalendars.clear();
-                mSelectedCalendars.add(selectCalendar);
-            } else {
-                if (mSelectedCalendars.contains(selectCalendar)) {
-                    mSelectedCalendars.remove(selectCalendar);
-                }
-            }
-        } else if (mSelectMode == CalendarViewDelegate.SELECT_MODE_MULTIPLE) {
+        if (isSelectModeDefault() || isSelectModeSingle()) {
+            //默认模式,单选
+            mSelectedCalendar = selectCalendar;
+        } else if (isSelectModeMultiple()) {
             //多选
             if (isSelect) {
                 if (mSelectedCalendars.size() >= mMultipleSelectMax) {
@@ -800,7 +793,7 @@ final class CalendarViewDelegate {
                     mSelectedCalendars.remove(selectCalendar);
                 }
             }
-        } else if (mSelectMode == CalendarViewDelegate.SELECT_MODE_RANGE) {
+        } else if (isSelectModeRange()) {
             //范围选择
             if (isSelect) {
                 mSelectedCalendars.add(selectCalendar);
