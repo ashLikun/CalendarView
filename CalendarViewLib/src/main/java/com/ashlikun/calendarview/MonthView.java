@@ -125,7 +125,7 @@ public abstract class MonthView extends BaseView {
     public void onClick(View v) {
         if (isClick) {
             Calendar calendar = getIndex();
-            if (calendar != null) {
+            if (calendar != null && calendar.isClick()) {
 
                 if (mDelegate.getMonthViewShowMode() == CalendarViewDelegate.MODE_ONLY_CURRENT_MONTH &&
                         !calendar.isCurrentMonth()) {
@@ -170,7 +170,7 @@ public abstract class MonthView extends BaseView {
         }
         if (isClick) {
             Calendar calendar = getIndex();
-            if (calendar != null) {
+            if (calendar != null && calendar.isClick()) {
 
                 boolean isCalendarInRange = CalendarUtil.isCalendarInRange(calendar, mDelegate.getMinYear(),
                         mDelegate.getMinYearMonth(), mDelegate.getMaxYear(), mDelegate.getMaxYearMonth());
@@ -325,7 +325,8 @@ public abstract class MonthView extends BaseView {
             return;
         }
         if (mItems.contains(mDelegate.getCurrentDay())) {
-            for (Calendar a : mItems) {//添加操作
+            for (Calendar a : mItems) {
+                //添加操作
                 a.setCurrentDay(false);
             }
             int index = mItems.indexOf(mDelegate.getCurrentDay());

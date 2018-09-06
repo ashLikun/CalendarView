@@ -103,6 +103,10 @@ public final class Calendar implements Serializable {
      * 星期,0-6 对应周日到周一
      */
     private int week;
+    /**
+     * 这个日期是否可以点击
+     */
+    private boolean click = true;
 
     /**
      * 获取完整的农历日期
@@ -301,6 +305,14 @@ public final class Calendar implements Serializable {
 
     public boolean isSameMonth(Calendar calendar) {
         return year == calendar.getYear() && month == calendar.getMonth();
+    }
+
+    public boolean isClick() {
+        return click;
+    }
+
+    public void setClick(boolean click) {
+        this.click = click;
     }
 
     public int compareTo(Calendar calendar) {

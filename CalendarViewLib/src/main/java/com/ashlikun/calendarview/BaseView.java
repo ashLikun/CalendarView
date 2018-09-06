@@ -255,6 +255,7 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
         for (Calendar a : mItems) {
             a.setScheme("");
             a.setSchemeColor(0);
+            a.setClick(true);
             a.setSchemes(null);
         }
     }
@@ -267,16 +268,19 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
         if (mDelegate.mSchemeDate == null || mDelegate.mSchemeDate.size() == 0) {
             return;
         }
-        for (Calendar a : mItems) {//添加操作
+        for (Calendar a : mItems) {
+            //添加操作
             if (mDelegate.mSchemeDate.contains(a)) {
                 Calendar d = mDelegate.mSchemeDate.get(mDelegate.mSchemeDate.indexOf(a));
                 a.setScheme(TextUtils.isEmpty(d.getScheme()) ? mDelegate.getSchemeText() : d.getScheme());
                 a.setSchemeColor(d.getSchemeColor());
                 a.setSchemes(d.getSchemes());
+                a.setClick(d.isClick());
             } else {
                 a.setScheme("");
                 a.setSchemeColor(0);
                 a.setSchemes(null);
+                a.setClick(true);
             }
         }
     }
@@ -294,10 +298,12 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
                 a.setScheme(TextUtils.isEmpty(d.getScheme()) ? mDelegate.getSchemeText() : d.getScheme());
                 a.setSchemeColor(d.getSchemeColor());
                 a.setSchemes(d.getSchemes());
+                a.setClick(d.isClick());
             } else {
                 a.setScheme("");
                 a.setSchemeColor(0);
                 a.setSchemes(null);
+                a.setClick(true);
             }
         }
     }
@@ -468,6 +474,10 @@ public abstract class BaseView extends View implements View.OnClickListener, Vie
      */
     public Calendar getSelectOne() {
         return mDelegate.getSelectOne();
+    }
+
+    public List<Calendar> getItems() {
+        return mItems;
     }
 
     /**
