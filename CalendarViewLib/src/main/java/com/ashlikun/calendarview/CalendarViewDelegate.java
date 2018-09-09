@@ -157,7 +157,11 @@ final class CalendarViewDelegate {
      */
     private int mSchemeThemeColor, mSelectedThemeColor;
 
-
+    /**
+     * 当数据最后一个是否可以取消选择
+     * 只适用于单选和多选
+     */
+    private boolean isOneCancelSelect = true;
     /**
      * 自定义的日历路径
      */
@@ -275,8 +279,12 @@ final class CalendarViewDelegate {
 
     /**
      * 保存选中的日期
+     * 这个是默认模式的选中日期
      */
     Calendar mSelectedCalendar;
+    /**
+     * 这个是其他3种模式选择的日期
+     */
     List<Calendar> mSelectedCalendars;
 
     /**
@@ -300,6 +308,7 @@ final class CalendarViewDelegate {
         mSchemeThemeColor = array.getColor(R.styleable.CalendarView_scheme_theme_color, 0x50CFCFCF);
         mMonthViewClass = array.getString(R.styleable.CalendarView_month_view);
 
+        isOneCancelSelect = array.getBoolean(R.styleable.CalendarView_is_one_cancle_select, isOneCancelSelect);
         mWeekViewClass = array.getString(R.styleable.CalendarView_week_view);
         mWeekBarClass = array.getString(R.styleable.CalendarView_week_bar_view);
         mWeekTextSize = array.getDimensionPixelSize(R.styleable.CalendarView_week_text_size, CalendarUtil.dipToPx(context, 12));
@@ -773,14 +782,17 @@ final class CalendarViewDelegate {
      */
     public void setSelectCalendar(Calendar selectCalendar, boolean isSelect) {
         if (isSelectModeDefault()) {
-            //默认模式,单选
+            //默认模式
             mSelectedCalendar = selectCalendar;
         } else if (isSelectModeSingle()) {
+            //单选
             if (isSelect) {
                 mSelectedCalendars.clear();
                 mSelectedCalendars.add(selectCalendar);
             } else {
-                mSelectedCalendars.remove(selectCalendar);
+                if (isOneCancelSelect) {
+                    mSelectedCalendars.remove(selectCalendar);
+                }
             }
         } else if (isSelectModeMultiple()) {
             //多选
@@ -796,8 +808,12 @@ final class CalendarViewDelegate {
                 }
             } else {
                 //反选
-                if (mSelectedCalendars.contains(selectCalendar)) {
-                    mSelectedCalendars.remove(selectCalendar);
+                //如果最后一个不可以取消，就跳过
+                if (mSelectedCalendars.size() == 1 && !isOneCancelSelect) {
+                } else {
+                    if (mSelectedCalendars.contains(selectCalendar)) {
+                        mSelectedCalendars.remove(selectCalendar);
+                    }
                 }
             }
         } else if (isSelectModeRange()) {

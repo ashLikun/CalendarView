@@ -1077,7 +1077,7 @@ public class CalendarView extends FrameLayout {
      * @return 获取选择的日期
      */
     public Calendar getSelectedCalendar() {
-        return mDelegate.mSelectedCalendar;
+        return mDelegate.getSelectOne();
     }
 
     /**

@@ -14,6 +14,7 @@
         <attr name="week_view" format="string" /> <!--完全自定义周视图-->
         <attr name="week_bar_height" format="dimension" /> <!--星期栏的高度-->
         <attr name="week_bar_view" format="string" /> <!--如果需要的话使用自定义星期栏-->
+        <attr name="is_one_cancle_select" format="boolean" /> <!--当数据最后一个是否可以取消选择只适用于单选和多选-->
 
         <attr name="scheme_text" format="string" />
         <attr name="day_text_size" format="dimension" />
