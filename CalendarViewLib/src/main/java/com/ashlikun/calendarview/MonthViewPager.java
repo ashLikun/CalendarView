@@ -238,11 +238,10 @@ public final class MonthViewPager extends ViewPager {
             mParentLayout.updateSelectWeek(week);
         }
 
-
-        if (mDelegate.mInnerListener != null) {
-            mDelegate.mInnerListener.onMonthDateSelected(calendar, false);
-        }
         if (mDelegate.isSelectModeDefault()) {
+            if (mDelegate.mInnerListener != null) {
+                mDelegate.mInnerListener.onMonthDateSelected(calendar, false);
+            }
             mDelegate.dispatchSelectListener(false);
         }
         updateSelected();

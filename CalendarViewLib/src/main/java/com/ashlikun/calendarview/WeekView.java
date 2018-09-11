@@ -157,7 +157,9 @@ public abstract class WeekView extends BaseView {
         }
 
         currentCalendar.setCurrentDay(currentCalendar.equals(mDelegate.getCurrentDay()));
-        mDelegate.mInnerListener.onWeekDateSelected(currentCalendar, false);
+        if (mDelegate.isSelectModeDefault()) {
+            mDelegate.mInnerListener.onWeekDateSelected(calendar, false);
+        }
         int i = CalendarUtil.getWeekFromDayInMonth(currentCalendar, mDelegate.getWeekStart());
         mParentLayout.updateSelectWeek(i);
 
