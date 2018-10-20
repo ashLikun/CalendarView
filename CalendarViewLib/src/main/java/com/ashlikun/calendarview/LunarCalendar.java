@@ -115,6 +115,7 @@ public final class LunarCalendar {
         return DAY_STR[day - 1];
     }
 
+
     /**
      * 用来表示1900年到2099年间农历年份的相关信息，共24位bit的16进制表示，其中：
      * 1. 前4位表示该年闰哪个月；
@@ -362,7 +363,47 @@ public final class LunarCalendar {
      * @param calendar calendar
      * @return 获取农历节日
      */
-    public  static String getLunarText(Calendar calendar) {
+    public static String getLunarText(Calendar calendar) {
         return getLunarText(calendar.getYear(), calendar.getMonth(), calendar.getDay());
+    }
+
+    /**
+     * 转农历汉字大写
+     *
+     * @param month 月
+     * @param day   日
+     * @return 数字转换为汉字日
+     */
+    public static String numToLunarStr(int month, int day) {
+        return numToLunarMonthStr(month) + DAY_STR[day - 1];
+    }
+
+    /**
+     * 转农历汉字大写
+     *
+     * @return 数字转换为汉字日
+     */
+    public static String numToLunarDayStr(int day) {
+        return DAY_STR[day - 1];
+    }
+
+    /**
+     * 转农历汉字大写
+     *
+     * @param month 月
+     * @return 数字转换为汉字
+     */
+    public static String numToLunarMonthStr(int month) {
+        String m = "";
+        if (month == 1) {
+            m = "正月";
+        } else if (month == 11) {
+            m = "十一月";
+        } else if (month == 12) {
+            m = "十二月";
+        } else {
+            m = MONTH_STR[month - 1];
+        }
+        return m;
     }
 }
