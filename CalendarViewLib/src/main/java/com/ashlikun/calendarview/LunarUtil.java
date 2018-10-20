@@ -8,7 +8,7 @@ package com.ashlikun.calendarview;
  * 功能介绍：农历计算方法
  */
 
-final class LunarUtil {
+public final class LunarUtil {
 
 
     private static int[] LUNAR_MONTH_DAYS = {1887, 0x1694, 0x16aa, 0x4ad5, 0xab6, 0xc4b7, 0x4ae, 0xa56, 0xb52a, 0x1d2a,
@@ -70,7 +70,7 @@ final class LunarUtil {
      * @param day   公历日
      * @return [0]农历年 [1]农历月 [2]农历日 [3]是否闰月 0 false : 1 true
      */
-    static int[] solarToLunar(int year, int month, int day) {
+    public static int[] solarToLunar(int year, int month, int day) {
         int[] lunarInt = new int[4];
         int index = year - SOLAR[0];
         int data = (year << 9) | (month << 5) | (day);

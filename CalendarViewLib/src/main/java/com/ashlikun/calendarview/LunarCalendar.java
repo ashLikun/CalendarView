@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-final class LunarCalendar {
+public final class LunarCalendar {
 
 
     static void init(Context context) {
@@ -67,7 +67,7 @@ final class LunarCalendar {
      * @param day   农历日
      * @return 返回传统农历节日
      */
-    private static String getTraditionFestival(int year, int month, int day) {
+    public static String getTraditionFestival(int year, int month, int day) {
         if (month == 12) {
             int count = daysInLunarMonth(year, month);
             if (day == count) {
@@ -93,7 +93,7 @@ final class LunarCalendar {
      * @param leap  1==闰月
      * @return 数字转换为汉字月份
      */
-    private static String numToChineseMonth(int month, int leap) {
+    public static String numToChineseMonth(int month, int leap) {
         if (leap == 1) {
             return String.format("闰%s", MONTH_STR[month - 1]);
         }
@@ -108,7 +108,7 @@ final class LunarCalendar {
      * @param leap  1==闰月
      * @return 数字转换为汉字日
      */
-    private static String numToChinese(int month, int day, int leap) {
+    public static String numToChinese(int month, int day, int leap) {
         if (day == 1) {
             return numToChineseMonth(month, leap);
         }
@@ -157,7 +157,7 @@ final class LunarCalendar {
      * @param month 将要计算的月份
      * @return 传回农历 year年month月的总天数
      */
-    private static int daysInLunarMonth(int year, int month) {
+    public static int daysInLunarMonth(int year, int month) {
         if ((LUNAR_INFO[year - CalendarViewDelegate.MIN_YEAR] & (0x100000 >> month)) == 0) {
             return 29;
         } else {
@@ -172,7 +172,7 @@ final class LunarCalendar {
      * @param day   公历日期
      * @return 公历节日
      */
-    private static String gregorianFestival(int month, int day) {
+    public static String gregorianFestival(int month, int day) {
         String text = getString(month, day);
         String solar = "";
         for (String aMSolarCalendar : SOLAR_CALENDAR) {
@@ -184,7 +184,7 @@ final class LunarCalendar {
         return solar;
     }
 
-    private static String getString(int month, int day) {
+    public static String getString(int month, int day) {
         return (month >= 10 ? String.valueOf(month) : "0" + month) + (day >= 10 ? day : "0" + day);
     }
 
@@ -197,7 +197,7 @@ final class LunarCalendar {
      * @param day   日
      * @return 返回24节气
      */
-    private static String getSolarTerm(int year, int month, int day) {
+    public static String getSolarTerm(int year, int month, int day) {
         if (!SOLAR_TERMS.containsKey(year)) {
             SOLAR_TERMS.put(year, SolarTermUtil.getSolarTerms(year));
         }
@@ -222,7 +222,7 @@ final class LunarCalendar {
      * @param day   日
      * @return 农历节日
      */
-    private static String getLunarText(int year, int month, int day) {
+    public static String getLunarText(int year, int month, int day) {
         String termText = LunarCalendar.getSolarTerm(year, month, day);
         String solar = LunarCalendar.gregorianFestival(month, day);
         if (!TextUtils.isEmpty(solar)) {
@@ -250,7 +250,7 @@ final class LunarCalendar {
      * @param day   day
      * @return 获取西方节日
      */
-    private static String getSpecialFestival(int year, int month, int day) {
+    public static String getSpecialFestival(int year, int month, int day) {
         if (!SPECIAL_FESTIVAL.containsKey(year)) {
             SPECIAL_FESTIVAL.put(year, getSpecialFestivals(year));
         }
@@ -274,7 +274,7 @@ final class LunarCalendar {
      * @param year 年
      * @return 获取每年的母亲节和父亲节、感恩节
      */
-    private static String[] getSpecialFestivals(int year) {
+    public static String[] getSpecialFestivals(int year) {
         String[] festivals = new String[3];
         java.util.Calendar date = java.util.Calendar.getInstance();
         date.set(year, 4, 1);
@@ -306,7 +306,7 @@ final class LunarCalendar {
     }
 
 
-    private static String dateToString(int year, int month, int day) {
+    public static String dateToString(int year, int month, int day) {
         return String.format("%s%s", year, getString(month, day));
     }
 
@@ -315,7 +315,7 @@ final class LunarCalendar {
      *
      * @param calendar calendar
      */
-    static void setupLunarCalendar(Calendar calendar) {
+    public static void setupLunarCalendar(Calendar calendar) {
         int year = calendar.getYear();
         int month = calendar.getMonth();
         int day = calendar.getDay();
@@ -362,7 +362,7 @@ final class LunarCalendar {
      * @param calendar calendar
      * @return 获取农历节日
      */
-    static String getLunarText(Calendar calendar) {
+    public  static String getLunarText(Calendar calendar) {
         return getLunarText(calendar.getYear(), calendar.getMonth(), calendar.getDay());
     }
 }
