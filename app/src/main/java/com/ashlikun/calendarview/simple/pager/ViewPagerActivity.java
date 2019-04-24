@@ -3,9 +3,6 @@ package com.ashlikun.calendarview.simple.pager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,11 +17,15 @@ import com.ashlikun.calendarview.simple.colorful.ColorfulActivity;
 import com.ashlikun.calendarview.simple.index.IndexActivity;
 import com.ashlikun.calendarview.simple.meizu.MeiZuActivity;
 import com.ashlikun.calendarview.simple.simple.SimpleActivity;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 public class ViewPagerActivity extends BaseActivity implements
         View.OnClickListener,

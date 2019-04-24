@@ -1,6 +1,5 @@
 package com.ashlikun.calendarview.simple.pager;
 
-import android.support.v7.widget.LinearLayoutManager;
 
 import com.ashlikun.calendarview.simple.Article;
 import com.ashlikun.calendarview.simple.ArticleAdapter;
@@ -8,6 +7,8 @@ import com.ashlikun.calendarview.simple.R;
 import com.ashlikun.calendarview.simple.base.fragment.BaseFragment;
 import com.ashlikun.calendarview.simple.group.GroupItemDecoration;
 import com.ashlikun.calendarview.simple.group.GroupRecyclerView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class PagerFragment extends BaseFragment {
 

@@ -1,7 +1,6 @@
 package com.ashlikun.calendarview.simple;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +13,8 @@ import com.bumptech.glide.RequestManager;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 适配器

@@ -49,10 +49,12 @@ public abstract class GroupRecyclerAdapter<Parent, Child> extends BaseRecyclerAd
      * @return 某一组的数量
      */
     int getChildCount(int groupPosition) {
-        if (mGroupTitles == null || mGroups.size() == 0)
+        if (mGroupTitles == null || mGroups.size() == 0) {
             return 0;
-        if (mGroups.get(mGroupTitles.get(groupPosition)) == null)
+        }
+        if (mGroups.get(mGroupTitles.get(groupPosition)) == null) {
             return 0;
+        }
         return mGroups.get(mGroupTitles.get(groupPosition)).size();
     }
 

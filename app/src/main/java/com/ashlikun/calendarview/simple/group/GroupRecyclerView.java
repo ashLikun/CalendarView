@@ -2,11 +2,12 @@ package com.ashlikun.calendarview.simple.group;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.ashlikun.calendarview.simple.R;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -56,11 +57,12 @@ public class GroupRecyclerView extends RecyclerView {
 
     @Override
     public void addItemDecoration(ItemDecoration decor) {
-        if (decor instanceof GroupItemDecoration)
+        if (decor instanceof GroupItemDecoration) {
             super.addItemDecoration(decor);
-        else
+        } else {
             throw new IllegalStateException("ItemDecoration must instanceof " +
                     "GroupItemDecoration or extends GroupItemDecoration");
+        }
         mItemDecoration = (GroupItemDecoration) decor;
         mItemDecoration.setTextSize(mTextSize);
         mItemDecoration.setBackground(mGroutBackground);

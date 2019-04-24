@@ -3,7 +3,6 @@ package com.ashlikun.calendarview.simple.meizu;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class MeiZuActivity extends BaseActivity implements
         CalendarView.OnDateSelectedListener,

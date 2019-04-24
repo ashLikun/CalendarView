@@ -14,7 +14,7 @@
         android:text="展开或者收缩"
         tools:ignore="HardcodedText" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,6 +36,6 @@
                 android:layout_height="400dp"
                 android:background="#FF0000" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

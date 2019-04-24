@@ -1,13 +1,14 @@
 package com.ashlikun.calendarview.simple.base.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 作者　　: 李坤
@@ -30,8 +31,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
         onClickListener = new OnClickListener() {
             @Override
             public void onClick(int position, long itemId) {
-                if (onItemClickListener != null)
+                if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(position, itemId);
+                }
             }
         };
 
@@ -85,8 +87,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter {
 
 
     final T getItem(int position) {
-        if (position < 0 || position >= mItems.size())
+        if (position < 0 || position >= mItems.size()) {
             return null;
+        }
         return mItems.get(position);
     }
 
