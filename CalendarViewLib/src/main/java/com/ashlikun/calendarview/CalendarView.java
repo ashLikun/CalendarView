@@ -10,13 +10,13 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
+
+import java.lang.reflect.Constructor;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 作者　　: 李坤
@@ -236,8 +236,10 @@ public class CalendarView extends FrameLayout {
                          int maxYear, int maxYearMonth) {
         mDelegate.setRange(minYear, minYearMonth,
                 maxYear, maxYearMonth);
+        mWeekPager.setCurrentItem(mDelegate.mCurrentWeekViewItem, false);
         mWeekPager.notifyDataSetChanged();
         mSelectLayout.notifyDataSetChanged();
+        mMonthPager.setCurrentItem(mDelegate.mCurrentMonthViewItem, false);
         mMonthPager.notifyDataSetChanged();
         if (CalendarUtil.isCalendarInRange(mDelegate.mSelectedCalendar, mDelegate)) {
             scrollToCalendar(mDelegate.mSelectedCalendar.getYear(),
